@@ -308,3 +308,66 @@
   opacity: 1;
   transform: translateX(25px); /* Moves further out than the button */
 }
+/* --- TOP RIGHT GLITCH NAME --- */
+.glitch-name {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 1.5rem;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 4px;
+  z-index: 10;
+}
+
+/* Create the two ghost copies */
+.glitch-name::before,
+.glitch-name::after {
+  /* This pulls the exact text from the HTML data-text attribute */
+  content: attr(data-text); 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* Ghost 1: The Pink Shift */
+.glitch-name::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00ff; /* Neon Pink */
+  /* Runs a 4-second loop */
+  animation: glitch-anim-pink 4s infinite linear alternate-reverse;
+}
+
+/* Ghost 2: The Cyan Shift */
+.glitch-name::after {
+  left: -2px;
+  text-shadow: -2px 0 #00ffff; /* Neon Cyan */
+  /* Runs a slightly different 5-second loop so they overlap randomly */
+  animation: glitch-anim-cyan 5s infinite linear alternate-reverse;
+}
+
+/* THE TIMING LOGIC: 
+   0% to 90% of the time, clip-path hides the ghost completely.
+   90% to 100%, it violently slices and shifts the text. */
+
+@keyframes glitch-anim-pink {
+  0%, 90% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  92% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+  94% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+  96% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+  98% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -2px); }
+  100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+}
+
+@keyframes glitch-anim-cyan {
+  0%, 85% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  87% { clip-path: inset(15% 0 50% 0); transform: translate(2px, 1px); }
+  89% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, -1px); }
+  91% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 2px); }
+  93% { clip-path: inset(5% 0 80% 0); transform: translate(-2px, -2px); }
+  95%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+}

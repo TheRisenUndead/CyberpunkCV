@@ -63,6 +63,12 @@ export default function MainMenu({ isActive, onVideoReady }) {
         />
       )}
 
+      {/* ---> NEW: OCCASIONAL GLITCH NAME (Top Right) <--- */}
+      {/* We MUST include data-text so the CSS ghosts know what to copy! */}
+      <div className="glitch-name" data-text="SENITH SUMANASIRI CV">
+        SENITH SUMANASIRI CV
+      </div>
+
       {/* The UI is now instantly ready when the fade completes */}
       <div style={{ padding: '50px', color: 'var(--accent)', fontFamily: 'Orbitron, sans-serif' }}>
         <h1 style={{ fontSize: '4rem', textShadow: '2px 2px black', margin: '0' }}>MAIN_HUB</h1>
