@@ -1,22 +1,28 @@
 import { useState, useEffect } from 'react';
-// 1. Tell Vite to grab your image from the assets folder
+// We are re-using the logo you uploaded previously
 import cyberpunkLogo from './assets/logo.png'; 
+
+// NETRUNNER CONFIGURATION HUB
+// How long the logo sequence runs total (glitch in, hold, glitch out).
+// Must match the CSS duration (2.4s = 2400ms).
+const LOGO_DURATION_MS = 2400;
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
-  // 2. NEW: We create a memory for our "Phase"
+  // We've simplified the phase management: 
+  // 'loading' (0-100%) or 'processing' (the finite logo sequence)
   const [phase, setPhase] = useState('loading'); 
 
   // --- TIMER 1: THE COUNTER ---
   useEffect(() => {
-    // If we aren't in the 'loading' phase anymore, don't run the counter
+    // If the counter is complete or canceled, do nothing
     if (phase !== 'loading') return; 
 
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress >= 100) {
           clearInterval(timer);
-          setPhase('logo'); // NEW: When we hit 100, trigger Phase 2!
+          setPhase('processing'); // NEW: Triggers the sequence!
           return 100;
         }
         return oldProgress + 1;
@@ -26,34 +32,38 @@ export default function LoadingScreen() {
     return () => clearInterval(timer);
   }, [phase]);
 
-  // --- TIMER 2: THE GLITCH DURATION ---
-  // This watches the 'phase'. If it changes to 'logo', it waits 2 seconds, then fades out.
+  // --- TIMER 2: THE SECURE HANDSHAKE COMPLETION ---
+  // This timer triggers ONCE, based on LOGO_DURATION_MS,
+  // to finalize the fade transition after the glitch sequence completes.
   useEffect(() => {
-    if (phase === 'logo') {
-      setTimeout(() => {
-        setPhase('fade'); // Trigger Phase 3!
-      }, 2000); // 2000 milliseconds = 2 seconds of glitching
+    if (phase === 'processing') {
+      const completionTimer = setTimeout(() => {
+        setPhase('complete'); // Triggers the final fade
+      }, LOGO_DURATION_MS);
+
+      // Cleanup if component unmounts before sequence finishes
+      return () => clearTimeout(completionTimer);
     }
   }, [phase]);
 
-  // --- THE LOGIC ---
+  // --- THE LOGIC (Messages unchanged) ---
   let loadingMessage = "";
-  if (progress < 25) loadingMessage = "STARTING UP NEURAL LINK...";
-  else if (progress < 50) loadingMessage = "LOADING JOHNNY SILVERHAND...";
+  if (progress < 25) loadingMessage = "INITIALIZING KIROSHI OPTICS...";
+  else if (progress < 50) loadingMessage = "LOADING SKILLS DATASHARD...";
   else if (progress < 75) loadingMessage = "CONNECTING TO SANDEVISTAN...";
-  else if (progress < 100) loadingMessage = "REMOVING ALL FORMS OF CYBERPSYCHOSIS...";
+  else if (progress < 100) loadingMessage = "BYPASSING ICE BLACKWALL...";
   else loadingMessage = "SYNC_ESTABLISHED";
 
   // --- THE UI ---
   return (
-    // If phase is 'fade', we attach our CSS class to fade the whole box out
-    <div className={phase === 'fade' ? 'fade-out' : ''} style={{
+    // Only fade the entire screen when the sequence is fully 'complete'
+    <div className={phase === 'complete' ? 'fade-out' : ''} style={{
       height: '100vh', width: '100vw', backgroundColor: 'black', color: 'var(--accent)', 
       display: 'flex', flexDirection: 'column', alignItems: 'center', 
       justifyContent: 'center', fontFamily: 'Orbitron, sans-serif'
     }}>
       
-      {/* CONDITIONAL RENDERING: Only show text IF phase is 'loading' */}
+      {/* PHASE 1: LOADING TEXT */}
       {phase === 'loading' && (
         <>
           <h1>SYSTEM_BOOT: {progress}%</h1>
@@ -61,9 +71,9 @@ export default function LoadingScreen() {
         </>
       )}
 
-      {/* CONDITIONAL RENDERING: Only show the image IF phase is 'logo' or 'fade' */}
-      {(phase === 'logo' || phase === 'fade') && (
-        <img src={cyberpunkLogo} alt="Cyberpunk" className="cyber-glitch" />
+      {/* PHASE 2: PROCESSING LOGO (Finite handshake sequence) */}
+      {(phase === 'processing' || phase === 'complete') && (
+        <img src={cyberpunkLogo} alt="Cyberpunk" className="logo-secure-handshake" />
       )}
 
     </div>
