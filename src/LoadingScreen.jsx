@@ -39,7 +39,7 @@ export default function LoadingScreen() {
         <h1>SYSTEM_BOOT: {progress}% STARTING UP NEURAL LINK</h1>
       }
       else if(progress < 50){
-        <h1>SYSTEM_BOOT: {progress}% LOADING JOHNNY SILVERHAND</h1>
+        <h1>SYSTEM_BOOT: {progress}% LOADING JOHNNY SILVERHANDs</h1>
       }
       else if(progress < 75){
         <h1>SYSTEM_BOOT: {progress}% CONNECTING TO SANDEVISTAN</h1>
