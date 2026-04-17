@@ -243,9 +243,8 @@
     visibility: hidden;
   }
 }
-/* --- CYBER BUTTON COMPONENT --- */
+/* --- REVERSED CYBER BUTTON COMPONENT --- */
 
-/* 1. The Wrapper: This is what actually detects the mouse hover */
 .cyber-btn-wrapper {
   display: flex;
   align-items: center;
@@ -254,9 +253,9 @@
   margin: 10px 0;
 }
 
-/* 2. The Main Button: Uses clip-path to cut the angled corners */
+/* 1. The Main Button */
 .cyber-btn {
-  background-color: var(--accent); /* Uses your yellow */
+  background-color: var(--accent);
   color: black;
   font-family: 'Rajdhani', 'Orbitron', sans-serif;
   font-weight: 700;
@@ -264,20 +263,22 @@
   letter-spacing: 2px;
   padding: 10px 40px;
   border: none;
-  /* This creates the slanted edge on the right side */
-  clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
+  
+  /* REVERSED: The slant is now cut into the bottom-LEFT side */
+  clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);
   position: relative;
-  z-index: 2; /* Keeps the button IN FRONT of the lines */
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 2; 
+  transform: translateX(0);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* 3. The Lines: Drawn entirely with math (no images!) */
+/* 2. The Lines */
 .cyber-btn-lines {
   height: 40px; 
-  width: 150px;
-  margin-left: -30px; /* Tucks it slightly behind the main button */
+  width: 100px;
+  /* Tucks it underneath the left edge of the button */
+  margin-right: -20px; 
   
-  /* Draws the repeating angled lines (///) */
   background: repeating-linear-gradient(
     70deg, 
     var(--accent) 0,
@@ -286,28 +287,30 @@
     transparent 10px
   );
   
-  /* Fades the lines out to the right side */
-  -webkit-mask-image: linear-gradient(to right, black 10%, transparent 100%);
-  mask-image: linear-gradient(to right, black 10%, transparent 100%);
+  /* REVERSED: Fades the lines out to the LEFT side instead of the right */
+  -webkit-mask-image: linear-gradient(to left, black 10%, transparent 100%);
+  mask-image: linear-gradient(to left, black 10%, transparent 100%);
 
-  /* The Starting State (Hidden and pulled back) */
+  /* Starting State: Hidden and shoved to the right (behind the button) */
   opacity: 0;
-  transform: translateX(-40px);
-  z-index: 1; /* Behind the button */
+  transform: translateX(20px);
+  z-index: 1; 
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* --- THE HOVER ANIMATION --- */
-/* When the wrapper is hovered, push the button forward */
+/* --- THE NEW HOVER PHYSICS --- */
+
+/* When hovered, the button aggressively pushes out to the right */
 .cyber-btn-wrapper:hover .cyber-btn {
-  transform: translateX(15px);
+  transform: translateX(40px);
 }
 
-/* When the wrapper is hovered, shoot the lines out and make them visible */
+/* When hovered, the lines appear and anchor the button to the left */
 .cyber-btn-wrapper:hover .cyber-btn-lines {
   opacity: 1;
-  transform: translateX(25px); /* Moves further out than the button */
+  transform: translateX(0px); 
 }
+
 /* --- TOP RIGHT GLITCH NAME --- */
 .glitch-name {
   position: absolute;
