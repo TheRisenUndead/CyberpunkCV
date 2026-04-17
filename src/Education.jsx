@@ -22,7 +22,6 @@ const EduNode = ({ logo, title, text, link }) => {
     >
       <div className="cyber-btn-lines"></div>
       
-      {/* We use an <a> tag so it acts like a real web link */}
       <a 
         href={link} 
         target="_blank" 
@@ -33,7 +32,7 @@ const EduNode = ({ logo, title, text, link }) => {
           display: 'flex', 
           flexDirection: 'column', 
           textDecoration: 'none',
-          minWidth: '400px', // Keeps them a uniform size
+          minWidth: '400px',
           transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
         }}
       >
@@ -94,7 +93,7 @@ export default function Education({ onBack }) {
       <div style={{ 
         display: 'flex', 
         flexDirection: 'column', 
-        alignItems: 'flex-end', // Pushes the buttons to the right
+        alignItems: 'flex-end',
         paddingRight: '50px',
         marginTop: '50px' 
       }}>
@@ -103,7 +102,7 @@ export default function Education({ onBack }) {
           title="ABERYSTWYTH"
           logo={aberLogo}
           link="https://courses.aber.ac.uk/undergraduate/computer-graphics-vision-games-degree/"
-          text="BSc Computer Graphics, Vision, and Games | Aberystwyth University | 2023 – 2026"
+          text="BSc Computer Graphics, Vision, and Games | Aberystwyth University | 2023 - 2026"
         />
 
         <EduNode 
