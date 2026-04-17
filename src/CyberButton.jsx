@@ -1,11 +1,31 @@
+// 1. IMPORT THE SOUND EFFECT
+import clickSound from './assets/buttonsoundeffect.mp3';
+
 export default function CyberButton({ text, onClick }) {
+  
+  // 2. THE NEW MASTER CLICK HANDLER
+  const handleInteraction = (e) => {
+    // Phase A: Fire the sound effect
+    const audio = new Audio(clickSound);
+    audio.volume = 0.3; 
+    audio.play().catch(err => console.log("Browser blocked UI audio:", err));
+
+    // Phase B: Execute whatever the button is supposed to do (like loading the Profile)
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   return (
-    <div className="cyber-btn-wrapper" onClick={onClick}>
+    <div 
+      className="cyber-btn-wrapper" 
+      onClick={handleInteraction} /* 3. BOTH ACTIONS FIRED HERE */
+    >
       
-      {/* 1. We moved the lines FIRST so they sit on the left */}
+      {/* The trailing lines */}
       <div className="cyber-btn-lines"></div>
       
-      {/* 2. The main button is now on the right */}
+      {/* The main button */}
       <button className="cyber-btn">
         {text}
       </button>
