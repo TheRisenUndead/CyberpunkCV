@@ -71,8 +71,11 @@ export default function MainMenu({ isActive, onVideoReady }) {
         {/* ---> THE NEW BUTTONS GO HERE <--- */}
         <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <CyberButton text="PROFILE" onClick={() => console.log("Profile clicked")} />
+          <CyberButton text="EDUCATION" onClick={() => console.log("Education clicked")} />
           <CyberButton text="SKILLS" onClick={() => console.log("Skills clicked")} />
           <CyberButton text="PROJECTS" onClick={() => console.log("Projects clicked")} />
+          <CyberButton text="ACHIEVEMENTS" onClick={() => console.log("Achievements clicked")} />
+          <CyberButton text="PORTFOLIO" onClick={() => console.log("Portfolio clicked")} />
         </div>
         {/* --------------------------------- */}
 
