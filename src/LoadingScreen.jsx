@@ -4,7 +4,7 @@ import glitchSound from './assets/glitch_effect.mp3';
 
 const LOGO_DURATION_MS = 2000;
 
-export default function LoadingScreen() {
+export default function LoadingScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
   // NEW: We start in 'standby' mode, waiting for user input
   const [phase, setPhase] = useState('standby'); 
@@ -45,9 +45,14 @@ export default function LoadingScreen() {
       audio.volume = 0.5; // Sets volume to 50% so we don't blow out recruiters' ears
       audio.play().catch(err => console.log("Autoplay blocked:", err));
 
-      const completionTimer = setTimeout(() => {
+     const completionTimer = setTimeout(() => {
         setPhase('complete');
-      }, LOGO_DURATION_MS);
+
+        // NEW: Wait 1.5 seconds for the screen to fade to black, then tell App.jsx we are done!
+        setTimeout(() => {
+        if (onComplete) onComplete();
+        }, 1500); 
+     }, LOGO_DURATION_MS);
 
       return () => clearTimeout(completionTimer);
     }

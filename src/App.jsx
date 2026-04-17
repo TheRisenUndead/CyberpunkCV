@@ -1,14 +1,23 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
 import LoadingScreen from './LoadingScreen';
+import MainMenu from './MainMenu';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  // We track the state of the entire website here
+  const [appState, setAppState] = useState('booting'); // Starts as 'booting', changes to 'menu'
 
   return (
-  <LoadingScreen />
-  )
+    <>
+      {/* If we are booting, show the loading screen and wait for the 'onComplete' signal */}
+      {appState === 'booting' && (
+        <LoadingScreen onComplete={() => setAppState('menu')} />
+      )}
 
+      {/* If we get the signal, mount the Main Menu! */}
+      {appState === 'menu' && (
+        <MainMenu />
+      )}
+    </>
+  );
 }
-
-export default App
