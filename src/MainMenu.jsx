@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import CyberButton from './CyberButton';
 
 const TOTAL_SONGS = 30; 
 
@@ -64,10 +65,18 @@ export default function MainMenu({ isActive, onVideoReady }) {
 
       {/* The UI is now instantly ready when the fade completes */}
       <div style={{ padding: '50px', color: 'var(--accent)', fontFamily: 'Orbitron, sans-serif' }}>
-        <h1 style={{ fontSize: '4rem', textShadow: '2px 2px black' }}>MAIN_HUB</h1>
-        <p style={{ fontSize: '1.5rem', color: 'white' }}>Welcome to the Afterlife.</p>
+        <h1 style={{ fontSize: '4rem', textShadow: '2px 2px black', margin: '0' }}>MAIN_HUB</h1>
+        <p style={{ fontSize: '1.5rem', color: 'white', marginTop: '10px' }}>Welcome to the Afterlife.</p>
         
-        <div style={{ marginTop: '30px', padding: '10px', border: '1px solid var(--accent)', display: 'inline-block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        {/* ---> THE NEW BUTTONS GO HERE <--- */}
+        <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <CyberButton text="PROFILE" onClick={() => console.log("Profile clicked")} />
+          <CyberButton text="SKILLS" onClick={() => console.log("Skills clicked")} />
+          <CyberButton text="PROJECTS" onClick={() => console.log("Projects clicked")} />
+        </div>
+        {/* --------------------------------- */}
+
+        <div style={{ marginTop: '50px', padding: '10px', border: '1px solid var(--accent)', display: 'inline-block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <p style={{ margin: 0, fontSize: '0.8rem' }}>
             [ RADIO STATUS: ONLINE ] - TRACK_{currentSong}.{getFileExtension(currentSong)}
           </p>
