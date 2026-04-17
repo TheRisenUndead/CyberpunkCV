@@ -6,16 +6,13 @@ const LOGO_DURATION_MS = 2000;
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState('loading'); 
+  // NEW: We start in 'standby' mode, waiting for user input
+  const [phase, setPhase] = useState('standby'); 
 
-  // --- NEW: THE PRELOADER ---
-  // This runs instantly in the background so the files are ready at 100%
+  // --- PRELOADER (Keeps assets ready) ---
   useEffect(() => {
-    // Force browser to cache the image
     const imgPreload = new Image();
     imgPreload.src = cyberpunkLogo;
-
-    // Force browser to cache the audio
     const audioPreload = new Audio();
     audioPreload.src = glitchSound;
     audioPreload.load(); 
@@ -43,9 +40,10 @@ export default function LoadingScreen() {
   useEffect(() => {
     if (phase === 'processing') {
       
-      // Because we preloaded it, this will now play instantly
+      // Because the user clicked the start button, this will now play!
       const audio = new Audio(glitchSound);
-      audio.play().catch(err => console.log("Browser blocked autoplay:", err));
+      audio.volume = 0.5; // Sets volume to 50% so we don't blow out recruiters' ears
+      audio.play().catch(err => console.log("Autoplay blocked:", err));
 
       const completionTimer = setTimeout(() => {
         setPhase('complete');
@@ -55,7 +53,6 @@ export default function LoadingScreen() {
     }
   }, [phase]);
 
-  // --- THE LOGIC ---
   let loadingMessage = "";
   if (progress < 25) loadingMessage = "STARTING UP NEURAL LINK...";
   else if (progress < 50) loadingMessage = "LOADING JOHNNY SILVERHAND...";
@@ -63,7 +60,6 @@ export default function LoadingScreen() {
   else if (progress < 100) loadingMessage = "REMOVING ALL FORMS OF CYBERPSYCHOSIS...";
   else loadingMessage = "SYNC_ESTABLISHED";
 
-  // --- THE UI ---
   return (
     <div className={phase === 'complete' ? 'fade-out' : ''} style={{
       height: '100vh', width: '100vw', backgroundColor: 'black', color: 'var(--accent)', 
@@ -71,6 +67,37 @@ export default function LoadingScreen() {
       justifyContent: 'center', fontFamily: 'Orbitron, sans-serif'
     }}>
       
+      {/* NEW: THE INITIATE BUTTON */}
+      {phase === 'standby' && (
+        <button 
+          onClick={() => setPhase('loading')}
+          style={{
+            background: 'transparent',
+            color: 'var(--accent)',
+            border: '2px solid var(--accent)',
+            padding: '15px 30px',
+            fontSize: '1.5rem',
+            fontFamily: 'Orbitron, sans-serif',
+            cursor: 'pointer',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            transition: 'all 0.3s ease'
+          }}
+          // Adds a cool hover effect
+          onMouseEnter={(e) => {
+            e.target.style.background = 'var(--accent)';
+            e.target.style.color = 'black';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = 'transparent';
+            e.target.style.color = 'var(--accent)';
+          }}
+        >
+          [ INITIATE NEURAL LINK ]
+        </button>
+      )}
+
+      {/* PHASE 1: LOADING TEXT */}
       {phase === 'loading' && (
         <>
           <h1>SYSTEM_BOOT: {progress}%</h1>
@@ -78,7 +105,7 @@ export default function LoadingScreen() {
         </>
       )}
 
-      {/* Processing Logo */}
+      {/* PHASE 2: PROCESSING LOGO */}
       {(phase === 'processing' || phase === 'complete') && (
         <img src={cyberpunkLogo} alt="Cyberpunk" className="logo-secure-handshake" />
       )}
