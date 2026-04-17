@@ -116,7 +116,7 @@ export default function MainMenu({ isActive, onVideoReady }) {
 
         {/* VIEW D: THE EDUCATION PAGE */}
         {activeView === 'skills' && (
-            <Education onBack={() => setActiveView('hub')} />
+            <Skills onBack={() => setActiveView('hub')} />
         )}
       </div>
     </div>
