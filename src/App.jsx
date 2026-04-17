@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
@@ -12,13 +9,19 @@ function App() {
       <div className="ticks"></div> 
       
       <section className="hero">
-        <h1 style={{ fontSize: '4rem', color: 'var(--accent)', textShadow: '3px 3px var(--accent-border)' }}>
+        <h1 style={{ 
+          fontSize: '4rem', 
+          color: 'var(--accent)', 
+          textShadow: '3px 3px var(--accent-border)' 
+        }}>
           SYNC_ESTABLISHED
         </h1>
-        <p style={{ color: 'white', letterSpacing: '5px' }}>USER: [YOUR_NAME_HERE]</p>
+        <p style={{ color: 'white', letterSpacing: '5px' }}>
+          USER: [YOUR_NAME_HERE]
+        </p>
       </section>
 
-      <div className="counter" onClick={() => setCount((count) => count + 1)}>
+      <div className="counter" onClick={() => setCount((c) => c + 1)}>
         NEURAL_LINK_STABILITY: {count}%
       </div>
 
