@@ -35,7 +35,18 @@ export default function LoadingScreen() {
       justifyContent: 'center',
       fontFamily: 'Orbitron, sans-serif'
     }}>
-      <h1>SYSTEM_BOOT: {progress}%</h1>
+      if(progress < 25 ){
+        <h1>SYSTEM_BOOT: {progress}% STARTING UP NEURAL LINK</h1>
+      }
+      else if(progress < 50){
+        <h1>SYSTEM_BOOT: {progress}% LOADING JOHNNY SILVERHAND</h1>
+      }
+      else if(progress < 75){
+        <h1>SYSTEM_BOOT: {progress}% CONNECTING TO SANDEVISTAN</h1>
+      }
+      else if(progess < 100)}{
+        <h1>SYSTEM_BOOT: {progress}% REMOVING ALL FORMS OF CYBERPSYCHOSIS</h1>
+      }
     </div>
   );
 }
