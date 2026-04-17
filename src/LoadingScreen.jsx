@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import cyberpunkLogo from './assets/logo.png'; 
 import glitchSound from './assets/glitch_effect.mp3';
 import profilePic from './assets/ProfilePicture.png';
-// 1. IMPORT THE NEW LOGOS
 import cheamLogo from './assets/CheamLogo.png';
 import aberLogo from './assets/AberLogo.png';
+
+// 1. IMPORT PORTFOLIO LOGOS
+import githubLogo from './assets/GitHubLogo.png';
+import itchLogo from './assets/ItchIoLogo.png';
+import scratchLogo from './assets/ScratchLogo.png';
+import flowlabLogo from './assets/FlowlabLogo.png';
 
 const LOGO_DURATION_MS = 2000;
 
@@ -15,10 +20,14 @@ export default function LoadingScreen({ onComplete, videoLoaded }) {
   useEffect(() => {
     const imgPreload = new Image(); imgPreload.src = cyberpunkLogo;
     const facePreload = new Image(); facePreload.src = profilePic;
-    
-    // 2. PRELOAD THE LOGOS
     const cheamPreload = new Image(); cheamPreload.src = cheamLogo;
     const aberPreload = new Image(); aberPreload.src = aberLogo;
+
+    // 2. PRELOAD PORTFOLIO LOGOS
+    const ghPreload = new Image(); ghPreload.src = githubLogo;
+    const itchPreload = new Image(); itchPreload.src = itchLogo;
+    const scratchPreload = new Image(); scratchPreload.src = scratchLogo;
+    const flowPreload = new Image(); flowPreload.src = flowlabLogo;
 
     const audioPreload = new Audio(); audioPreload.src = glitchSound; audioPreload.load(); 
   }, []);
