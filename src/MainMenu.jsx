@@ -4,6 +4,7 @@ import Profile from './Profile';
 import Education from './Education';
 import Skills from './Skills';
 import Projects from './Projects';
+import Achievements from './Achievements';
 
 const TOTAL_SONGS = 30; 
 
@@ -93,7 +94,7 @@ export default function MainMenu({ isActive, onVideoReady }) {
               <CyberButton text="EDUCATION" onClick={() => setActiveView('education')} />
               <CyberButton text="SKILLS" onClick={() => setActiveView('skills')} />
               <CyberButton text="PROJECTS" onClick={() => setActiveView('projects')} />
-              <CyberButton text="ACHIEVEMENTS" onClick={() => console.log("Achievements clicked")} />
+              <CyberButton text="ACHIEVEMENTS" onClick={() => setActiveView('achievements')} />
               <CyberButton text="PORTFOLIO" onClick={() => console.log("Portfolio clicked")} />
             </div>
 
@@ -123,6 +124,11 @@ export default function MainMenu({ isActive, onVideoReady }) {
         {/* VIEW E: THE PROJECTS PAGE */}
         {activeView === 'projects' && (
             <Projects onBack={() => setActiveView('hub')} />
+        )}
+
+        {/* VIEW F: THE ACHIEVEMENTS PAGE */}
+        {activeView === 'achievements' && (
+            <Achievements onBack={() => setActiveView('hub')} />
         )}
       </div>
     </div>
