@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import CyberButton from './CyberButton';
 import Profile from './Profile';
 import Education from './Education';
-import Skills from './Skills'; 
+import Skills from './Skills';
+import Projects from './Projects';
 
 const TOTAL_SONGS = 30; 
 
@@ -91,7 +92,7 @@ export default function MainMenu({ isActive, onVideoReady }) {
               <CyberButton text="PROFILE" onClick={() => setActiveView('profile')} />
               <CyberButton text="EDUCATION" onClick={() => setActiveView('education')} />
               <CyberButton text="SKILLS" onClick={() => setActiveView('skills')} />
-              <CyberButton text="PROJECTS" onClick={() => console.log("Projects clicked")} />
+              <CyberButton text="PROJECTS" onClick={() => setActiveView('projects')} />
               <CyberButton text="ACHIEVEMENTS" onClick={() => console.log("Achievements clicked")} />
               <CyberButton text="PORTFOLIO" onClick={() => console.log("Portfolio clicked")} />
             </div>
@@ -114,9 +115,14 @@ export default function MainMenu({ isActive, onVideoReady }) {
             <Education onBack={() => setActiveView('hub')} />
         )}
 
-        {/* VIEW D: THE EDUCATION PAGE */}
+        {/* VIEW D: THE SKILLS PAGE */}
         {activeView === 'skills' && (
             <Skills onBack={() => setActiveView('hub')} />
+        )}
+
+        {/* VIEW E: THE PROJECTS PAGE */}
+        {activeView === 'projects' && (
+            <Projects onBack={() => setActiveView('hub')} />
         )}
       </div>
     </div>
