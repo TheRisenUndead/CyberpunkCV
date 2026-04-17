@@ -228,7 +228,8 @@
 */
 .logo-secure-handshake {
   max-width: 60%;
-  animation: secure-handshake-sequence 2.4s ease-out forwards;
+  /* Changed from 2.4s to 2.0s */
+  animation: secure-handshake-sequence 2.0s ease-out forwards; 
 }
 
 /* (Keep this from before) Fades the whole screen after all logic complete */
