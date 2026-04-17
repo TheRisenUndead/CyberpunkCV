@@ -1,14 +1,25 @@
 import { useState, useEffect } from 'react';
 import cyberpunkLogo from './assets/logo.png'; 
-// 1. IMPORT THE AUDIO FILE
 import glitchSound from './assets/glitch_effect.mp3';
 
-// 2. SHORTENED DURATION TO 2 SECONDS (2000ms)
 const LOGO_DURATION_MS = 2000;
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState('loading'); 
+
+  // --- NEW: THE PRELOADER ---
+  // This runs instantly in the background so the files are ready at 100%
+  useEffect(() => {
+    // Force browser to cache the image
+    const imgPreload = new Image();
+    imgPreload.src = cyberpunkLogo;
+
+    // Force browser to cache the audio
+    const audioPreload = new Audio();
+    audioPreload.src = glitchSound;
+    audioPreload.load(); 
+  }, []);
 
   // --- TIMER 1: THE COUNTER ---
   useEffect(() => {
@@ -31,9 +42,9 @@ export default function LoadingScreen() {
   // --- TIMER 2: HANDSHAKE & AUDIO TRIGGER ---
   useEffect(() => {
     if (phase === 'processing') {
-      // 3. TRIGGER THE AUDIO
+      
+      // Because we preloaded it, this will now play instantly
       const audio = new Audio(glitchSound);
-      // We use .catch() because some browsers block autoplaying sound!
       audio.play().catch(err => console.log("Browser blocked autoplay:", err));
 
       const completionTimer = setTimeout(() => {
