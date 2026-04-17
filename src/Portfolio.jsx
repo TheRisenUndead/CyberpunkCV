@@ -113,7 +113,7 @@ export default function Portfolio({ onBack }) {
         <PortfolioNode 
           title="ITCH.IO"
           logo={itchLogo}
-          link="https://therisenundead.itch.io/punchout-leauge"
+          link="https://itch.io/profile/therisenundead"
           text="therisenundead.itch.io"
         />
 
