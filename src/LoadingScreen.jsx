@@ -4,26 +4,26 @@ import glitchSound from './assets/glitch_effect.mp3';
 
 const LOGO_DURATION_MS = 2000;
 
-export default function LoadingScreen({ onComplete }) {
+export default function LoadingScreen({ onComplete, videoLoaded }) {
   const [progress, setProgress] = useState(0);
-  // NEW: We start in 'standby' mode, waiting for user input
   const [phase, setPhase] = useState('standby'); 
 
-  // --- PRELOADER (Keeps assets ready) ---
   useEffect(() => {
-    const imgPreload = new Image();
-    imgPreload.src = cyberpunkLogo;
-    const audioPreload = new Audio();
-    audioPreload.src = glitchSound;
-    audioPreload.load(); 
+    const imgPreload = new Image(); imgPreload.src = cyberpunkLogo;
+    const audioPreload = new Audio(); audioPreload.src = glitchSound; audioPreload.load(); 
   }, []);
 
-  // --- TIMER 1: THE COUNTER ---
+  // --- THE SMART TIMER ---
   useEffect(() => {
     if (phase !== 'loading') return; 
 
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
+        // NEW LOGIC: If we hit 99 but the video is still downloading, hold at 99!
+        if (oldProgress === 99 && !videoLoaded) {
+          return 99; 
+        }
+
         if (oldProgress >= 100) {
           clearInterval(timer);
           setPhase('processing');
@@ -34,35 +34,32 @@ export default function LoadingScreen({ onComplete }) {
     }, 50);
 
     return () => clearInterval(timer);
-  }, [phase]);
+  }, [phase, videoLoaded]);
 
-  // --- TIMER 2: HANDSHAKE & AUDIO TRIGGER ---
   useEffect(() => {
     if (phase === 'processing') {
-      
-      // Because the user clicked the start button, this will now play!
       const audio = new Audio(glitchSound);
-      audio.volume = 0.5; // Sets volume to 50% so we don't blow out recruiters' ears
+      audio.volume = 0.5;
       audio.play().catch(err => console.log("Autoplay blocked:", err));
 
-     const completionTimer = setTimeout(() => {
+      const completionTimer = setTimeout(() => {
         setPhase('complete');
-
-        // NEW: Wait 1.5 seconds for the screen to fade to black, then tell App.jsx we are done!
         setTimeout(() => {
-        if (onComplete) onComplete();
+          if (onComplete) onComplete();
         }, 1500); 
-     }, LOGO_DURATION_MS);
+      }, LOGO_DURATION_MS);
 
       return () => clearTimeout(completionTimer);
     }
-  }, [phase]);
+  }, [phase, onComplete]);
 
   let loadingMessage = "";
   if (progress < 25) loadingMessage = "STARTING UP NEURAL LINK...";
   else if (progress < 50) loadingMessage = "LOADING JOHNNY SILVERHAND...";
   else if (progress < 75) loadingMessage = "CONNECTING TO SANDEVISTAN...";
-  else if (progress < 100) loadingMessage = "REMOVING ALL FORMS OF CYBERPSYCHOSIS...";
+  else if (progress < 99) loadingMessage = "REMOVING ALL FORMS OF CYBERPSYCHOSIS...";
+  // If we are stuck at 99 waiting for the video, tell the user!
+  else if (progress === 99 && !videoLoaded) loadingMessage = "DECRYPTING HEAVY VIDEO ASSETS...";
   else loadingMessage = "SYNC_ESTABLISHED";
 
   return (
@@ -72,49 +69,37 @@ export default function LoadingScreen({ onComplete }) {
       justifyContent: 'center', fontFamily: 'Orbitron, sans-serif'
     }}>
       
-      {/* NEW: THE INITIATE BUTTON */}
       {phase === 'standby' && (
         <button 
           onClick={() => setPhase('loading')}
           style={{
-            background: 'transparent',
-            color: 'var(--accent)',
-            border: '2px solid var(--accent)',
-            padding: '15px 30px',
-            fontSize: '1.5rem',
-            fontFamily: 'Orbitron, sans-serif',
-            cursor: 'pointer',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-            transition: 'all 0.3s ease'
+            background: 'transparent', color: 'var(--accent)', border: '2px solid var(--accent)',
+            padding: '15px 30px', fontSize: '1.5rem', fontFamily: 'Orbitron, sans-serif',
+            cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '2px', transition: 'all 0.3s ease'
           }}
-          // Adds a cool hover effect
-          onMouseEnter={(e) => {
-            e.target.style.background = 'var(--accent)';
-            e.target.style.color = 'black';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = 'transparent';
-            e.target.style.color = 'var(--accent)';
-          }}
+          onMouseEnter={(e) => { e.target.style.background = 'var(--accent)'; e.target.style.color = 'black'; }}
+          onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.color = 'var(--accent)'; }}
         >
           [ INITIATE NEURAL LINK ]
         </button>
       )}
 
-      {/* PHASE 1: LOADING TEXT */}
       {phase === 'loading' && (
         <>
           <h1>SYSTEM_BOOT: {progress}%</h1>
-          <h2 style={{ color: 'white', marginTop: '20px' }}>{">"} {loadingMessage}</h2>
+          <h2 style={{ 
+            color: 'white', marginTop: '20px', 
+            // Add a pulse effect if we are stuck at 99%
+            animation: progress === 99 && !videoLoaded ? 'pulse 1.5s infinite' : 'none' 
+          }}>
+            {">"} {loadingMessage}
+          </h2>
         </>
       )}
 
-      {/* PHASE 2: PROCESSING LOGO */}
       {(phase === 'processing' || phase === 'complete') && (
         <img src={cyberpunkLogo} alt="Cyberpunk" className="logo-secure-handshake" />
       )}
-
     </div>
   );
 }

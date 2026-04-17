@@ -4,20 +4,30 @@ import MainMenu from './MainMenu';
 import './App.css';
 
 export default function App() {
-  // We track the state of the entire website here
-  const [appState, setAppState] = useState('booting'); // Starts as 'booting', changes to 'menu'
+  const [appState, setAppState] = useState('booting'); 
+  const [videoLoaded, setVideoLoaded] = useState(false); // Tracks the heavy MP4
 
   return (
     <>
-      {/* If we are booting, show the loading screen and wait for the 'onComplete' signal */}
+      {/* 1. The Boot Sequence */}
       {appState === 'booting' && (
-        <LoadingScreen onComplete={() => setAppState('menu')} />
+        <LoadingScreen 
+          videoLoaded={videoLoaded} 
+          onComplete={() => setAppState('menu')} 
+        />
       )}
 
-      {/* If we get the signal, mount the Main Menu! */}
-      {appState === 'menu' && (
-        <MainMenu />
-      )}
+      {/* 2. The Main Menu (Always rendering to load the video, but hidden if booting) */}
+      <div style={{ 
+        display: appState === 'booting' ? 'none' : 'block',
+        height: '100vh', 
+        width: '100vw'
+      }}>
+        <MainMenu 
+          isActive={appState === 'menu'} 
+          onVideoReady={() => setVideoLoaded(true)} 
+        />
+      </div>
     </>
   );
 }
