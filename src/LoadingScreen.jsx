@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import cyberpunkLogo from './assets/logo.png'; 
 import glitchSound from './assets/glitch_effect.mp3';
+// 1. IMPORT YOUR PROFILE PICTURE
+import profilePic from './assets/ProfilePicture.png';
 
 const LOGO_DURATION_MS = 2000;
 
@@ -10,6 +12,10 @@ export default function LoadingScreen({ onComplete, videoLoaded }) {
 
   useEffect(() => {
     const imgPreload = new Image(); imgPreload.src = cyberpunkLogo;
+    
+    // 2. PRELOAD YOUR PROFILE PICTURE
+    const facePreload = new Image(); facePreload.src = profilePic;
+
     const audioPreload = new Audio(); audioPreload.src = glitchSound; audioPreload.load(); 
   }, []);
 
