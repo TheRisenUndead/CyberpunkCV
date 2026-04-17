@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import CyberButton from './CyberButton';
 import Profile from './Profile'; // <-- Imported the new Profile component!
+import Education from './Education'; 
 
 const TOTAL_SONGS = 30; 
 
@@ -87,7 +88,7 @@ export default function MainMenu({ isActive, onVideoReady }) {
             <div style={{ marginTop: '50px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {/* Wiring the PROFILE button to trigger the state change */}
               <CyberButton text="PROFILE" onClick={() => setActiveView('profile')} />
-              <CyberButton text="EDUCATION" onClick={() => console.log("Education clicked")} />
+              <CyberButton text="EDUCATION" onClick={() => setActiveView('education')} />
               <CyberButton text="SKILLS" onClick={() => console.log("Skills clicked")} />
               <CyberButton text="PROJECTS" onClick={() => console.log("Projects clicked")} />
               <CyberButton text="ACHIEVEMENTS" onClick={() => console.log("Achievements clicked")} />
@@ -104,10 +105,13 @@ export default function MainMenu({ isActive, onVideoReady }) {
 
         {/* VIEW B: THE PROFILE PAGE */}
         {activeView === 'profile' && (
-          /* Passes the reset function down so the [X] CLOSE button works */
-          <Profile onBack={() => setActiveView('hub')} />
+            <Profile onBack={() => setActiveView('hub')} />
         )}
 
+        {/* VIEW C: THE EDUCATION PAGE */}
+        {activeView === 'education' && (
+            <Education onBack={() => setActiveView('hub')} />
+        )}
       </div>
     </div>
   );
